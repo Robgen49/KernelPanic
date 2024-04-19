@@ -1,0 +1,69 @@
+CREATE TABLE Participants (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    photo TEXT NOT NULL,
+    about_me VARCHAR(255)
+);
+
+CREATE TABLE Questions (
+    id SERIAL PRIMARY KEY,
+    asker_full_name VARCHAR(100) NOT NULL,
+    asker_email VARCHAR(50) NOT NULL,
+    question VARCHAR(255) NOT NULL,
+    participant_id INT REFERENCES Participants(id) NOT NULL
+);
+
+CREATE TABLE Answers (
+    id SERIAL PRIMARY KEY,
+    answer TEXT,
+    question_id INT REFERENCES Questions(id)
+);
+
+CREATE TABLE Teams (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    photo TEXT NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    login VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    rating DOUBLE PRECISION[8]
+);
+
+CREATE TABLE TeamAnswers (
+    team_id INT REFERENCES Teams(id),
+    answer_id INT REFERENCES Answers(id),
+    PRIMARY KEY (team_id, answer_id)
+);
+
+CREATE TABLE TeamParticipants (
+    team_id INT REFERENCES Teams(id),
+    participant_id INT REFERENCES Participants(id),
+    PRIMARY KEY (team_id, participant_id)
+);
+
+INSERT INTO Participants (full_name, email, photo, about_me) VALUES
+('Иванов Иван', 'ivanov@example.com', 'ivanov_photo.jpg', 'Программист с опытом работы более 5 лет.'),
+('Петрова Анна', 'petrova@example.com', 'petrova_photo.jpg', 'Студентка IT-факультета, увлекаюсь фронтенд-разработкой.');
+
+INSERT INTO Questions (asker_full_name, asker_email, question, participant_id) VALUES
+('Сидорова Мария', 'sidorova@example.com', 'Какие курсы по JavaScript вы можете порекомендовать?', 1),
+('Петров Иван', 'petrov@example.com', 'Какие технологии используете в вашем проекте?', 2);
+
+INSERT INTO Answers (answer, question_id) VALUES
+('Мы используем Python и Django для backend и React для frontend.', 2),
+('Я могу порекомендовать курсы на платформе Coursera и Udemy.', 1);
+
+INSERT INTO Teams (name, photo, email, login, password, rating) VALUES
+('Команда A', 'team_a_photo.jpg', 'team_a@example.com', 'team_a_login', 'team_a_password', '{4.5, 2, 3.8, 3, 5.0, 4, 4.2, 5}'),
+('Команда B', 'team_b_photo.jpg', 'team_b@example.com', 'team_b_login', 'team_b_password', '{3.9, 2, 4.2, 5, 4.8, 3, 3.7, 4}');
+
+INSERT INTO TeamAnswers (team_id, answer_id) VALUES
+(1, 1),
+(1, 2),
+(2, 2);
+
+INSERT INTO TeamParticipants (team_id, participant_id) VALUES
+(1, 1),
+(1, 2),
+(2, 2);
