@@ -1,8 +1,12 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${SECRET_ID}
-            client-secret: ${SECRET_CLIENT}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+jwt:
+  secret: ${JWT}
