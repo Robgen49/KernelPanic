@@ -16,7 +16,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String full_name;
-    @Column(length = 20000)
+    @Column(length = 500000)
     private String photo;
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")

@@ -20,7 +20,7 @@ public class Team implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String teamName;
-    @Column(length = 20000)
+    @Column(length = 500000)
     private String logo;
 
     @OneToMany(mappedBy = "team")
