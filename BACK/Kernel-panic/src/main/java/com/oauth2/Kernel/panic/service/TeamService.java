@@ -12,4 +12,5 @@ public interface TeamService {
 
     void update(Team updatedTeam);
     void delete(int id);
+    Team findByLogin(String login);
 }

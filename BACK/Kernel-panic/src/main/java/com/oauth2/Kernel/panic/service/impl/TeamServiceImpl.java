@@ -39,4 +39,8 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.deleteById(id);
     }
 
+    public Team findByLogin(String login) {
+        return teamRepository.findByLogin(login).orElse(null);
+    }
+
 }

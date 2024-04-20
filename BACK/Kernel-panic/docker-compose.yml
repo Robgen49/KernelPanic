@@ -11,9 +11,7 @@ services:
   kernel-panic:
     depends_on:
     - postgres
-    build:
-      dockerfile: Dockerfile
-    container_name: "kernel-panic"
+    image: antaresprt/kernel-panic-kernel-panic:latest
     ports:
       - "8080:8080"
     environment:
