@@ -6,6 +6,8 @@ import com.oauth2.Kernel.panic.dto.SignUpRequest;
 import com.oauth2.Kernel.panic.dto.SigninRequest;
 import com.oauth2.Kernel.panic.entity.Team;
 
+import java.util.List;
+
 public interface AuthenticationService {
     Team signup(SignUpRequest signUpRequest);
     JwtAuthenticationResponse signin(SigninRequest signinRequest);

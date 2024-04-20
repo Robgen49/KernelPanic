@@ -1,5 +1,6 @@
 package com.oauth2.Kernel.panic.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +21,9 @@ public class Team implements UserDetails {
 
     private String teamName;
     private String logo;
+
     @OneToMany(mappedBy = "team")
+    @JsonManagedReference
     private List<Person> teammates;
 
     private String email;
