@@ -36,15 +36,11 @@ public class TeamController {
         return teamService.findById(id);
     }
 
-    @GetMapping("/current-team")
+    @GetMapping("/currentTeam")
     public ResponseEntity<Team> getCurrentTeam() {
-        // Получаем аутентификацию из контекста безопасности
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Получаем логин команды из аутентификации (предполагается, что логин хранится в токене)
         String teamLogin = authentication.getName();
-        // Затем используйте сервис команды для получения текущей команды по логину
         Team currentTeam = teamService.findByLogin(teamLogin);
-        // Проверяем, найдена ли команда
         if (currentTeam != null) {
             return ResponseEntity.ok(currentTeam);
         } else {
