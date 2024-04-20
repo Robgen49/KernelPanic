@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/question")
 @Tag(name = "question_controller")
+@CrossOrigin(maxAge = 3600L)
 public class QuestionController {
 
     private final QuestionService questionService;

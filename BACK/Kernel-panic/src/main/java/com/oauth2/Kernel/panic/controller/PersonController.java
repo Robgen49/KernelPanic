@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/person")
 @Tag(name = "person_controller")
+@CrossOrigin(maxAge = 3600L)
 public class PersonController {
 
     private final PersonService personService;

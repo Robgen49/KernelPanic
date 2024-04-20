@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/team")
 @RequiredArgsConstructor
 @Tag(name = "team_controller")
+@CrossOrigin(maxAge = 3600L)
 public class TeamController {
 
     private final TeamService teamService;
