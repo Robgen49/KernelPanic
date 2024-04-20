@@ -7,7 +7,6 @@ import com.oauth2.Kernel.panic.dto.SigninRequest;
 import com.oauth2.Kernel.panic.entity.Team;
 import com.oauth2.Kernel.panic.service.AuthenticationService;
 import com.oauth2.Kernel.panic.service.PersonService;
-import com.oauth2.Kernel.panic.service.impl.PersonServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -19,8 +19,8 @@ public class Team implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String teamName;
+    @Column(length = 20000)
     private String logo;
 
     @OneToMany(mappedBy = "team")
