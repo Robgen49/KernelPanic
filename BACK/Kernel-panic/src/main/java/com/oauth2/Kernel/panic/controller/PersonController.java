@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/person")
-@CrossOrigin
 @Tag(name = "person_controller")
 public class PersonController {
 

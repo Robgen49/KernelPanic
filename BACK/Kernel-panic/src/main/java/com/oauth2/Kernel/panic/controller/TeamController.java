@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/team")
 @RequiredArgsConstructor
-@CrossOrigin
 @Tag(name = "team_controller")
 public class TeamController {
 
