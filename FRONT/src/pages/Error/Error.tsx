@@ -15,20 +15,12 @@ const Error: React.FC<ErrorProps> = ({ message }) => {
 
    return (
       <div className={cls.root}>
-         <Typography variant="h4" className={cls.errorMessage}>
+         <Typography sx={{mb: 0, fontSize: 32}}>
             Упс! Что-то пошло не так.
          </Typography>
-         <Typography variant="body1" className={cls.errorMessage}>
+         {message && message.length > 0 && <Typography sx={{ mb: 5, fontSize: 24 }}>
             {message}
-         </Typography>
-         <Button
-            variant="contained"
-            color="primary"
-            className={cls.button}
-            onClick={handleRefresh}
-         >
-            Перезагрузить страницу
-         </Button>
+         </Typography>}
       </div>
    );
 };
