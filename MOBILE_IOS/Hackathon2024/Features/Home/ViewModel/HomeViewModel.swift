@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol HomeViewModelProtocol {
+    var appCoordinator: AppCoordinator? { get }
+}
+
+final class HomeViewModel: HomeViewModelProtocol {
+   weak var appCoordinator: AppCoordinator?
+}

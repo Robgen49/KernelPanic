@@ -7,4 +7,6 @@
 
 import Foundation
 
-let baseURL = ""
+let baseURL = "http://213.171.6.223:8080"
+
+var token = ""

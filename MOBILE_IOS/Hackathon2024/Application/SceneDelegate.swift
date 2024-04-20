@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
-        let navigationCon = UINavigationController(rootViewController: AuthViewController())
+        let navigationCon = UINavigationController.init()
         appCoordinator = AppCoordinator(navCon: navigationCon)
         appCoordinator!.start()
         window!.rootViewController = navigationCon

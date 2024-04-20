@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AuthViewModelProtocol: AnyObject {
-    
+    var appCoordinator: AppCoordinator? { get }
 }
 
 final class AuthViewModel: AuthViewModelProtocol {
