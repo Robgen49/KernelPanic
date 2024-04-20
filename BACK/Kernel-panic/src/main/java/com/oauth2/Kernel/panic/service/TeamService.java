@@ -10,7 +10,7 @@ public interface TeamService {
     List<Team> findAll();
     Team findById(int id);
 
-    void update(Team updatedTeam);
+    Team update(Team updatedTeam);
     void delete(int id);
     Team findByLogin(String login);
 }

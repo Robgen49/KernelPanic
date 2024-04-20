@@ -10,4 +10,7 @@ public interface PersonService {
 
      void saveAll(List<Person> teammates);
 
+     Person findById(int id);
+     List<Person> findAll();
+     Person update(Person updatedPerson);
 }

@@ -31,5 +31,10 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.findById(id).orElse(null);
     }
 
+    public Person update(Person updatedPerson) {
+        return personRepository.save(updatedPerson);
+    }
+
+
 
 }

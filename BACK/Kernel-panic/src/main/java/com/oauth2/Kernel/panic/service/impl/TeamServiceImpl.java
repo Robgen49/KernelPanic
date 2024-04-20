@@ -31,8 +31,8 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findById(id).orElse(null);
     }
 
-    public void update(Team updatedTeam) {
-        teamRepository.save(updatedTeam);
+    public Team update(Team updatedTeam) {
+        return teamRepository.save(updatedTeam);
     }
 
     public void delete(int id) {

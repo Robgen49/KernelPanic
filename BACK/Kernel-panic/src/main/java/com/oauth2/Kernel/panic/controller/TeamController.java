@@ -5,6 +5,7 @@ import com.oauth2.Kernel.panic.service.TeamService;
 import com.oauth2.Kernel.panic.service.impl.TeamServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,13 +28,13 @@ public class TeamController {
     }
 
     @GetMapping("/findAll")
-    public List<Team> findAll() {
-        return teamService.findAll();
+    public ResponseEntity<List<Team>> findAll() {
+        return ResponseEntity.ok(teamService.findAll());
     }
 
     @GetMapping("/findById")
-    public Team findById(@RequestParam int id) {
-        return teamService.findById(id);
+    public ResponseEntity<Team> findById(@RequestParam int id) {
+        return ResponseEntity.ok(teamService.findById(id));
     }
 
     @GetMapping("/currentTeam")
@@ -46,5 +47,10 @@ public class TeamController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Team> update(@RequestBody Team updatedTeam) {
+        return ResponseEntity.ok(teamService.update(updatedTeam));
     }
 }
