@@ -10,8 +10,12 @@ services:
       - 'POSTGRES_DB=kernel_panic'
   kernel-panic:
     depends_on:
-    - postgres
-    image: antaresprt/kernel-panic-kernel-panic:latest
+      - postgres
+    build:
+      context: docker
+      dockerfile: Dockerfile
+    image: kernel_panic_back
+    restart: always
     ports:
       - "8080:8080"
     environment:
