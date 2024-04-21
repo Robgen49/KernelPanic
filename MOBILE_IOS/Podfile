@@ -1,4 +1,8 @@
 target 'Hackathon2024' do
   pod 'SnapKit', '~> 5.0.0'
-
+  pod 'Alamofire'
+  pod "TLCustomMask", '2.0.0'
+  pod 'AnyFormatKit', '~> 2.5.1'
+  pod 'SwiftyJSON', '5.0.0'
+  pod 'SVProgressHUD', '~> 2.3', :modular_headers => true
 end

@@ -25,12 +25,19 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
+//        goToHome()
+        goToAuth()
+//        goToTeamProfile()
         debugPrint("Application started!")
     }
 }
 
 // MARK: - Auth
 extension AppCoordinator {
+    
+    func backToAuth() {
+        goToAuth()
+    }
     
     func goToAuth() {
         let authVC = AuthViewController()
@@ -41,5 +48,35 @@ extension AppCoordinator {
         authVC.viewModel = authVM
         
         navigationController.pushViewController(authVC, animated: true)
+    }
+    
+    func goToAddMember() {
+        let addMemVC = AddMemberViewController()
+        
+        let addMemVM = AddMemberViewModel()
+        addMemVM.appCoordinator = self
+        
+        addMemVC.viewModel = addMemVM
+        navigationController.pushViewController(addMemVC, animated: true)
+    }
+    
+    func goToHome() {
+        let homeVC = HomeViewController()
+        
+        let homeVM = HomeViewModel()
+        homeVM.appCoordinator = self
+        
+        homeVC.viewModel = homeVM
+        navigationController.pushViewController(homeVC, animated: true)
+    }
+    
+    func goToTeamProfile() {
+        let profileVC = TeamProfileViewController()
+        
+        let profileVM = TeamProfileViewModel()
+        profileVM.appCoordinator = self
+        
+        profileVC.viewModel = profileVM
+        navigationController.pushViewController(profileVC, animated: true)
     }
 }
