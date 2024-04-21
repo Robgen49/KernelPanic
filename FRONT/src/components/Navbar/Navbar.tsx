@@ -26,7 +26,9 @@ export const Navbar = () => {
          <AppBar sx={{ maxHeight: '100px' }} color='transparent' position="static">
             <Container maxWidth="xl">
                <Box sx={{ overflow: 'hidden', display: 'flex', justifyContent: 'space-between' }} >
+                  <Link sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} component={NavLink} to={'https://webpractik.ru/'}>
                   <div className={cls.logo} />
+                  </Link>
                   <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} >
                      {isMobile ? <>
                         <MenuIcon sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}

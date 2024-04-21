@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import cls from './Team.module.scss';
 import { Member } from '../../modules/SignUp/SignUp';
 import { Member as MemberComponent } from '../../modules/Member/Member';
@@ -18,7 +17,7 @@ export interface TeamProps {
 }
 
 export const Team = ({ id, teamName, logo, teammates }: TeamProps) => {
-   const [myTeamId, setTeamId] = useState<number>(null);
+   const [myTeamId, setTeamId] = useState<number>();
    const [showLoader, setShowLoader] = useState(true);
    useEffect(() => {
       fetchMyTeam().then((data) => data.json()).then((data) => {
@@ -34,7 +33,7 @@ export const Team = ({ id, teamName, logo, teammates }: TeamProps) => {
 
    return (
 
-      <div onClick={() => { if (id !== myTeamId) navigate('profile/' + id); else navigate('profile') }} className={cls.wrapper}>
+      <div onClick={() => { if ((id !== myTeamId) && myTeamId) navigate('profile/' + id); else navigate('profile') }} className={cls.wrapper}>
          <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={showLoader}>
             <CircularProgress color="secondary" />
          </Backdrop>

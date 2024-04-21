@@ -5,7 +5,7 @@ export interface updateTeam{
    id: number
    teamName: string
    logo: string
-   teammates: Member[]
+   teammates?: Member[]
 }
 
 export const fetchUpdateMyTeam = async (team: updateTeam) => {

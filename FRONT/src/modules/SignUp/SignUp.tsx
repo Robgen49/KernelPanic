@@ -70,7 +70,7 @@ export default function SignUp() {
          password: data.get('password') as string,
          logo: file,
          teammates: members
-      }).then((data) => data.json()).then((data) => {
+      }).then((data) => data.json()).then(() => {
          navigation('/auth/login', { state: { successAlertOpen: true } });
       }).catch(() => {
          setErrorAlertOpen(true);
@@ -163,7 +163,7 @@ export default function SignUp() {
                            backgroundColor: 'rgba(0 0 0 / 0.5)',
                         },
                      }} display={'flex'} flexDirection={'row'} gap={2} maxWidth={450}>
-                        {members.map((member: Member, index: number) => <Member key={index} fio={member.full_name} avatar={member.photo && member.photo instanceof File ? URL.createObjectURL(member.photo) : member.photo} />)}
+                        {members.map((member: Member, index: number) => <Member key={index} fio={member.full_name} avatar={member.photo} />)}
                      </Box>
                   }
                   <Box>

@@ -23,8 +23,8 @@ export const Home = () => {
    const isSuccessAlertOpen = location?.state?.successAlertOpen || false;
    const [successAlertOpen, setSuccessAlertOpen] = useState(isSuccessAlertOpen);
    const [errorAlert, setErrorAlert] = useState(false);
-   const [loader, setLoader] = useState(true);
-   const [currentIndex, setCurrentIndex] = useState(1);
+   const [_, setLoader] = useState(true);
+   const [currentIndex, setCurrentIndex] = useState(0);
    const [teams, setTeams] = useState<TeamProps[]>({} as TeamProps[]);
    const navigate = useNavigate();
    useEffect(() => {
@@ -59,10 +59,9 @@ export const Home = () => {
                modules={[Navigation, Pagination, Parallax]}
                navigation
                parallax={true}
-               loop={true}
                pagination={{ clickable: true }}
                slidesPerView={dimensions.width < 780 ? 1 : dimensions.width < 1400 ? 2 : dimensions.width < 1800 ? 3 : 4}
-               onActiveIndexChange={(event) =>{console.log(event); setCurrentIndex(event.activeIndex)}}
+               onActiveIndexChange={(event) => { console.log(event); setCurrentIndex(event.activeIndex) }}
             >
                <div
                   slot="container-start"
@@ -73,10 +72,13 @@ export const Home = () => {
                   }}
                   data-swiper-parallax="-23%"
                ></div>
-               {teams.map((item, index) => (
-                  <SwiperSlide key={index}>
-                     <Team {...item} />
-                  </SwiperSlide>))}
+               {teams.map((item, index) => {
+                  if (item.teammates.length > 0) return (
+                     <SwiperSlide key={index}>
+                        <Team {...item} />
+                     </SwiperSlide>
+                  )
+               })}
             </Swiper>
          </Box>
       </Box >

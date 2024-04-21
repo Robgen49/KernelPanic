@@ -6,7 +6,6 @@ import { Grid, TextField, useMediaQuery } from '@mui/material';
 import DropImage from '../../components/DropImage/DropImage';
 import { useState } from 'react';
 import { Member } from '../SignUp/SignUp';
-import { Toast } from '../../components/Alert';
 
 interface AddMemerProps {
    className?: string;
@@ -88,7 +87,6 @@ export const AddMemer = ({ open, handleClose, setMembers, setErrorAlertOpen }: A
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
-                        required
                         fullWidth
                         id="stack_tech"
                         label="Стек технологий"
@@ -97,7 +95,6 @@ export const AddMemer = ({ open, handleClose, setMembers, setErrorAlertOpen }: A
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
-                        required
                         fullWidth
                         id="direction"
                         label="Направление"
@@ -106,7 +103,6 @@ export const AddMemer = ({ open, handleClose, setMembers, setErrorAlertOpen }: A
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
-                        required
                         fullWidth
                         id="assessment"
                         InputLabelProps={{ sx: { fontSize: isMobile ? 10 : 14 } }}
@@ -116,7 +112,6 @@ export const AddMemer = ({ open, handleClose, setMembers, setErrorAlertOpen }: A
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
-                        required
                         fullWidth
                         InputLabelProps={{ sx: { fontSize: isMobile ? 10 : 14 } }}
                         id="difficulties"
