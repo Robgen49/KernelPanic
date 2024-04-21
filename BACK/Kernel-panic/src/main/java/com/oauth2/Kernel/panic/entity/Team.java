@@ -31,13 +31,12 @@ public class Team implements UserDetails {
 
     private String login;
     private String password;
-    @JsonIgnore
-    private Role role;
+;
 
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return null;
     }
 
     @Override

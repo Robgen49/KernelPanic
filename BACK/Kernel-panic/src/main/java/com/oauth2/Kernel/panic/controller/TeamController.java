@@ -5,13 +5,18 @@ import com.oauth2.Kernel.panic.service.TeamService;
 import com.oauth2.Kernel.panic.service.impl.TeamServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/team")
@@ -49,8 +54,30 @@ public class TeamController {
         }
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<Team> update(@RequestBody Team updatedTeam) {
-        return ResponseEntity.ok(teamService.update(updatedTeam));
+        // Получаем существующий объект Team из базы данных по его идентификатору
+        Team existingTeam = teamService.findById(updatedTeam.getId());
+        if (existingTeam == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        BeanUtils.copyProperties(updatedTeam, existingTeam, getNullPropertyNames(updatedTeam));
+
+        Team updatedEntity = teamService.update(existingTeam);
+
+        return ResponseEntity.ok(updatedEntity);
+    }
+
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+        Set<String> emptyNames = new HashSet<>();
+        for(java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
     }
 }

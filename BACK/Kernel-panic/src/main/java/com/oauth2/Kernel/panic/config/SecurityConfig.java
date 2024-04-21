@@ -1,6 +1,5 @@
 package com.oauth2.Kernel.panic.config;
 
-import com.oauth2.Kernel.panic.entity.Role;
 import com.oauth2.Kernel.panic.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
