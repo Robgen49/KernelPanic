@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 enum profileType {
     case mine
@@ -8,7 +9,7 @@ enum profileType {
 class TeamProfileViewController: UIViewController {
 
     //MARK: - Properties
-    weak var viewModel: TeamProfileViewModelProtocol?
+    var viewModel: TeamProfileViewModelProtocol?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -19,18 +20,34 @@ class TeamProfileViewController: UIViewController {
         return scrollView
     }()
     
+    private func addLogOutButton() {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "rectangle.portrait.and.arrow.right"), for: .normal)
+        button.imageView?.tintColor = .black
+        button.imageView?.snp.makeConstraints({ make in
+            make.width.equalTo(30)
+            make.height.equalTo(25)
+        })
+        button.addTarget(self, action: #selector(logout), for: .touchUpInside)
+        self.view.makeSystem(button)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+    }
+    
     private lazy var bannerImageView: UIImageView = {
-        let image = UIImage(named: "bannerTest")
+        let image = UIImage(named: "logo")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.sizeToFit()
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
         
         return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
-        label.text = "Название команды"
+        label.text = "Kernel panic"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 26, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,18 +88,18 @@ class TeamProfileViewController: UIViewController {
         memberName.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         memberName.numberOfLines = 0
         
-        let memberCV = UITextView()
-        memberCV.translatesAutoresizingMaskIntoConstraints = false
-        memberCV.text = "Резюме тут он рассказывает про разные всякие приколы и штуки интересные ну типо длинный текст и надо качествено проверить размер"
-        memberCV.isEditable = false
-        memberCV.font = UIFont.systemFont(ofSize: 18)
         
-        [memberImageView, memberName, memberCV].forEach {
+        let skills = getFAQStack(text: "Стек технологий", placeholder: "Технологии", tag: 2, valueText: "")
+        let proffesion = getFAQStack(text: "Направление", placeholder: "направление", tag: 3, valueText: "")
+        let memberGrade = getFAQStack(text: "Оцените свой вклад в данной работе", placeholder: "вклад", tag: 4, valueText: "")
+        let difficults = getFAQStack(text: "С какими трудностями столкнулись", placeholder: "трудности", tag: 5, valueText: "")
+        
+        [memberImageView, memberName, skills, proffesion, memberGrade, difficults].forEach {
             view.addSubview($0)
         }
         
         view.snp.makeConstraints { make in
-            make.height.equalTo(200)
+            make.height.equalTo(450)
         }
         
         memberImageView.snp.makeConstraints { make in
@@ -96,14 +113,67 @@ class TeamProfileViewController: UIViewController {
             make.centerY.equalTo(memberImageView.snp.centerY)
         }
         
-        memberCV.snp.makeConstraints { make in
-            make.top.equalTo(memberImageView.snp.bottom).offset(10)
+        skills.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(100)
+            make.top.equalTo(memberImageView.snp.bottom).offset(20)
         }
         
+        proffesion.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(skills.snp.bottom).offset(20)
+        }
+        
+        memberGrade.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(proffesion.snp.bottom).offset(20)
+        }
+        
+        difficults.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(memberGrade.snp.bottom).offset(20)
+        }
+        
+        
+//        memberCV.snp.makeConstraints { make in
+//            make.top.equalTo(memberImageView.snp.bottom).offset(10)
+//            make.left.equalToSuperview().offset(20)
+//            make.right.equalToSuperview().offset(-20)
+//            make.height.equalTo(100)
+//        }
+        
         return view
+    }
+    
+    func getFAQStack(text: String, placeholder: String, tag: Int, valueText: String) -> UIStackView {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 10
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.numberOfLines = 2
+        
+        let textField = EditText()
+        textField.textField.text = valueText
+        textField.set(placeholder: placeholder)
+        textField.textChanged(textField.textField)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+//        textField.textField.addTarget(self, action: #selector(textChanged(_:)), for: .editingChanged)
+//        textField.textField.addTarget(self, action: #selector(textChanged(_:)), for: .editingDidEnd)
+        textField.textField.tag = tag
+        textField.isUserInteractionEnabled = false
+        
+        stack.addArrangedSubview(label)
+        stack.addArrangedSubview(textField)
+        
+        return stack
     }
     
     private lazy var membersStack: UIStackView = {
@@ -137,6 +207,16 @@ class TeamProfileViewController: UIViewController {
         
         return btn
     }
+    
+    private lazy var membersTable: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(MemberCell.self, forCellReuseIdentifier: "MemberCell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        return tableView
+    }()
 
 // MARK: - View lifecycle
     override func viewDidLoad() {
@@ -144,11 +224,16 @@ class TeamProfileViewController: UIViewController {
         configure()
         addViews()
         layoutViews()
+        
+        Networking.fetchCurrentTeam { result in
+            //...
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = .black
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -160,15 +245,16 @@ class TeamProfileViewController: UIViewController {
 // MARK: - private extension
 private extension TeamProfileViewController {
     func configure() {
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.9489949346, green: 0.9488729835, blue: 0.9571836591, alpha: 1)
+        addLogOutButton()
+        
     }
 
     func addViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(bannerImageView)
         scrollView.addSubview(titleLabel)
-        scrollView.addSubview(membersLabel)
-        scrollView.addSubview(membersStack)
+        view.addSubview(membersTable)
     }
     
     func layoutViews() {
@@ -180,7 +266,8 @@ private extension TeamProfileViewController {
         
         bannerImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(40)
-            make.left.right.equalTo(view)
+            make.right.equalTo(view).offset(-5)
+            make.left.equalTo(view).offset(5)
             make.height.equalTo(view.frame.width * 0.6)
         }
         
@@ -189,16 +276,20 @@ private extension TeamProfileViewController {
             make.left.equalToSuperview().offset(10)
         }
         
-        membersLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.left.equalToSuperview().offset(10)
-        }
+//        membersLabel.snp.makeConstraints { make in
+//            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+//            make.left.equalToSuperview().offset(10)
+//        }
         
-        membersStack.snp.makeConstraints { make in
-            make.top.equalTo(membersLabel.snp.bottom).offset(2)
+        membersTable.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.left.right.equalTo(view)
             make.bottom.equalToSuperview()
         }
+    }
+    
+    func setupData() {
+        
     }
 }
 
@@ -206,5 +297,36 @@ private extension TeamProfileViewController {
 @objc private extension TeamProfileViewController {
     func editBanner() {
         
+    }
+    
+    func logout() {
+        viewModel?.appCoordinator?.backToAuth()
+    }
+}
+
+extension TeamProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let vm = viewModel else { return 0 }
+        return vm.data.count //vm.team?.teammates.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let vm = viewModel else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell") as! MemberCell
+        cell.setupData(image: vm.data[indexPath.item].0, fio: vm.data[indexPath.item].1)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        100
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "Участники"
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = MemberInfoViewController()
+        self.present(vc, animated: true)
     }
 }

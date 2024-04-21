@@ -13,7 +13,7 @@ class AuthViewController: UIViewController {
     
     private var viewType: ViewType = .login
     private lazy var loginView = LoginView()
-    private lazy var registrView = RegisterView()
+    public lazy var registrView = RegisterView()
     
     private lazy var currView: UIView = UIView()
     
@@ -26,16 +26,35 @@ class AuthViewController: UIViewController {
         addViews()
         layoutViews()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
 }
 
 // MARK: - public extension
 extension AuthViewController {
-    func logInTapped() {
-        
+    func logInTapped(login: String, password: String) {
+        viewModel?.logIn(login: login, password: password, completion: { result in
+            result ? (self.viewModel?.appCoordinator?.goToHome()) : nil
+        })
     }
     
-    func registerTapped() {
+    func registerTapped(team: Team) {
         
+        Networking.signUp(team: team) { [weak self] result in
+            if result {
+                self?.changeView(to: .login)
+            }
+        }
     }
     
     func changeView(to: ViewType) {
@@ -78,7 +97,7 @@ private extension AuthViewController {
             if self.viewType == .login {
                 make.height.equalTo(400)
             } else {
-                make.height.equalTo(600)
+                make.height.equalTo(view.frame.height)
             }
         }
     }

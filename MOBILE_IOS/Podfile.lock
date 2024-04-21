@@ -2,6 +2,9 @@ PODS:
   - Alamofire (5.9.0)
   - AnyFormatKit (2.5.2)
   - SnapKit (5.0.1)
+  - SVProgressHUD (2.3.1):
+    - SVProgressHUD/Core (= 2.3.1)
+  - SVProgressHUD/Core (2.3.1)
   - SwiftyJSON (5.0.0)
   - TLCustomMask (2.0.0)
 
@@ -9,6 +12,7 @@ DEPENDENCIES:
   - Alamofire
   - AnyFormatKit (~> 2.5.1)
   - SnapKit (~> 5.0.0)
+  - SVProgressHUD (~> 2.3)
   - SwiftyJSON (= 5.0.0)
   - TLCustomMask (= 2.0.0)
 
@@ -17,6 +21,7 @@ SPEC REPOS:
     - Alamofire
     - AnyFormatKit
     - SnapKit
+    - SVProgressHUD
     - SwiftyJSON
     - TLCustomMask
 
@@ -24,9 +29,10 @@ SPEC CHECKSUMS:
   Alamofire: 02b772c9910e8eba1a079227c32fbd9e46c90a24
   AnyFormatKit: b0dbb2a5f2fe7a0fc97f401f8a219a47ee63a335
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TLCustomMask: 32bcd873851167c2d2a3726b048766b737873710
 
-PODFILE CHECKSUM: a9af8bada437019ae04a1870d020aea654ec32dc
+PODFILE CHECKSUM: 2556ade4df30ed4e7de709bc53f73374f91be0df
 
 COCOAPODS: 1.15.2

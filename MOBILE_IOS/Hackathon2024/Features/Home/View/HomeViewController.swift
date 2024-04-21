@@ -15,7 +15,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         btn.addTarget(self, action: #selector(openProfileVC), for: .touchUpInside)
         
-        
         view.makeSystem(btn)
         
         return btn
@@ -45,29 +44,47 @@ class HomeViewController: UIViewController, UICollectionViewDataSource {
         configure()
         addViews()
         layoutViews()
+        Networking.fetchTeams{ (teams,result) in
+            self.viewModel?.teams = teams ?? []
+            self.collectionView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
-            self.collectionView.scrollToItem(at: IndexPath(row: 511, section: 0), at: .centeredVertically, animated: false)
+            self.collectionView.scrollToItem(at: IndexPath(row: 5023, section: 0), at: .centeredVertically, animated: false)
         }
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1024
+        10048
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let itemToShow = dataSource[indexPath.row % dataSource.count]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath)
+        guard let teams = viewModel?.teams, teams.count > 0 else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
+            cell.setupCell(team: nil)
+            return cell
+        }
+        var itemToShow: String = ""
+        
+        let team = teams[indexPath.row % teams.count]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
+        cell.setupCell(team: team)
         return cell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

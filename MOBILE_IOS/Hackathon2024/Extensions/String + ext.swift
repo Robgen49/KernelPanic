@@ -101,7 +101,7 @@ extension String {
             
         }
         catch {
-            print(error)
+            debugPrint(error)
             return nil
         }
     }

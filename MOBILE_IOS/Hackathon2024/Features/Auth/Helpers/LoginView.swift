@@ -178,7 +178,6 @@ final class LoginView: UIView {
             break
         }
         
-        print(loginData, passwordData)
     }
     
     @objc func logInTapped() {
@@ -186,7 +185,8 @@ final class LoginView: UIView {
             self.logInButton.alpha = 0.5
             self.logInButton.alpha = 1
         }
-        (parentViewController as? AuthViewController)?.logInTapped()
+        (parentViewController as? AuthViewController)?.logInTapped(login: loginData,
+                                                                   password: passwordData)
     }
     
     @objc func registerTapped() {

@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 final class Networking {
     static func prepareURL(endpoint: Endpoint) -> URL? {
@@ -14,7 +15,9 @@ final class Networking {
         return URL(string: urlString)
     }
     
-    static func performRequest(method: HTTPMethod, endPoint: Endpoint, params: [String: Any], withToken: Bool, completion: Result<Bool, Error>) {
+    static func performRequest(method: HTTPMethod, endPoint: Endpoint, params: [String: Any]?, withToken: Bool, completion: @escaping (JSON?) -> Void) {
+        
+        OverlayIndicator.present()
         
         let parameterEncoding: ParameterEncoding
         if method == .post || method == .put {
@@ -30,27 +33,29 @@ final class Networking {
                    encoding: parameterEncoding,
                    headers: getHeaders(withToken: withToken))
         .cURLDescription { description in
-            print(description)
+            if endPoint != .signUp {
+                debugPrint(description)
+            }
         }
         
         request.responseJSON { response in
-            
-            print(response)
-            print(response.response?.statusCode)
-            print(response.response?.url)
             
             switch response.result {
             case .success:
                 if let data = response.data {
                     do {
-//                        let json =
-                    } catch {
+                        let json = try JSON(data: data)
+                        completion(json)
+                    } catch let error {
+                        debugPrint(error.localizedDescription)
                         debugPrint(response.response?.statusCode)
                     }
                 }
-            case .failure:
-                break
+            case .failure(let error):
+                debugPrint(response.response?.statusCode)
+                completion(nil)
             }
+            OverlayIndicator.hide()
         }
     }
 }

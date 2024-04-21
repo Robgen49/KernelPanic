@@ -34,6 +34,13 @@
 		7E9A96DA2BD3F6FF00469627 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96D92BD3F6FF00469627 /* Networking.swift */; };
 		7E9A96DC2BD3F74C00469627 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96DB2BD3F74C00469627 /* Endpoint.swift */; };
 		7E9A96DE2BD3FC5500469627 /* Networking + Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96DD2BD3FC5500469627 /* Networking + Auth.swift */; };
+		7E9A96E02BD40C4D00469627 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96DF2BD40C4D00469627 /* Team.swift */; };
+		7E9A96E22BD4197400469627 /* Networking + register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96E12BD4197400469627 /* Networking + register.swift */; };
+		7E9A96E42BD440FE00469627 /* Networking + fetchTeams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96E32BD440FE00469627 /* Networking + fetchTeams.swift */; };
+		7E9A96E62BD4B58D00469627 /* Networking + currentTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96E52BD4B58D00469627 /* Networking + currentTeam.swift */; };
+		7E9A96E82BD4CEEE00469627 /* OverlayIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96E72BD4CEEE00469627 /* OverlayIndicator.swift */; };
+		7E9A96EA2BD4DD0700469627 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96E92BD4DD0700469627 /* MemberCell.swift */; };
+		7E9A96EC2BD4E58B00469627 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9A96EB2BD4E58B00469627 /* MemberInfoViewController.swift */; };
 		E00B234345492C422094F0E4 /* libPods-Hackathon2024.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5097D2DD3D862776DA71FC5 /* libPods-Hackathon2024.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +75,13 @@
 		7E9A96D92BD3F6FF00469627 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		7E9A96DB2BD3F74C00469627 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		7E9A96DD2BD3FC5500469627 /* Networking + Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking + Auth.swift"; sourceTree = "<group>"; };
+		7E9A96DF2BD40C4D00469627 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		7E9A96E12BD4197400469627 /* Networking + register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking + register.swift"; sourceTree = "<group>"; };
+		7E9A96E32BD440FE00469627 /* Networking + fetchTeams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking + fetchTeams.swift"; sourceTree = "<group>"; };
+		7E9A96E52BD4B58D00469627 /* Networking + currentTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking + currentTeam.swift"; sourceTree = "<group>"; };
+		7E9A96E72BD4CEEE00469627 /* OverlayIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayIndicator.swift; sourceTree = "<group>"; };
+		7E9A96E92BD4DD0700469627 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
+		7E9A96EB2BD4E58B00469627 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoViewController.swift; sourceTree = "<group>"; };
 		AE1FCFCEBC614618CD022360 /* Pods-Hackathon2024.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hackathon2024.release.xcconfig"; path = "Target Support Files/Pods-Hackathon2024/Pods-Hackathon2024.release.xcconfig"; sourceTree = "<group>"; };
 		C5097D2DD3D862776DA71FC5 /* libPods-Hackathon2024.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hackathon2024.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -204,6 +218,9 @@
 				7E9A96D92BD3F6FF00469627 /* Networking.swift */,
 				7E9A96DB2BD3F74C00469627 /* Endpoint.swift */,
 				7E9A96DD2BD3FC5500469627 /* Networking + Auth.swift */,
+				7E9A96E12BD4197400469627 /* Networking + register.swift */,
+				7E9A96E32BD440FE00469627 /* Networking + fetchTeams.swift */,
+				7E9A96E52BD4B58D00469627 /* Networking + currentTeam.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -248,6 +265,7 @@
 				7E9A96B02BD2DA5A00469627 /* EditText.xib */,
 				7E9A96AE2BD2D9FB00469627 /* EditText.swift */,
 				7E9A96BE2BD3038400469627 /* RadialGradientView.swift */,
+				7E9A96E72BD4CEEE00469627 /* OverlayIndicator.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -299,6 +317,7 @@
 		7E9A96C92BD340F400469627 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7E9A96DF2BD40C4D00469627 /* Team.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -317,6 +336,8 @@
 			children = (
 				7E9A96D42BD3BF9700469627 /* ViewModel */,
 				7E9A96D32BD3BF9200469627 /* View */,
+				7E9A96E92BD4DD0700469627 /* MemberCell.swift */,
+				7E9A96EB2BD4E58B00469627 /* MemberInfoViewController.swift */,
 			);
 			path = TeamProfile;
 			sourceTree = "<group>";
@@ -462,6 +483,9 @@
 			files = (
 				7E9A96832BD2C50700469627 /* AuthViewController.swift in Sources */,
 				7E9A96AC2BD2D1AF00469627 /* Sample.swift in Sources */,
+				7E9A96E22BD4197400469627 /* Networking + register.swift in Sources */,
+				7E9A96E02BD40C4D00469627 /* Team.swift in Sources */,
+				7E9A96EA2BD4DD0700469627 /* MemberCell.swift in Sources */,
 				7E9A96BB2BD2F29800469627 /* LoginView.swift in Sources */,
 				7E9A96CF2BD38E5300469627 /* ImageCell.swift in Sources */,
 				7E9A967F2BD2C50700469627 /* AppDelegate.swift in Sources */,
@@ -470,6 +494,7 @@
 				7E9A96DA2BD3F6FF00469627 /* Networking.swift in Sources */,
 				7E9A96C82BD330C200469627 /* AddMemberViewModel.swift in Sources */,
 				7E9A96A72BD2CD9F00469627 /* HomeViewModel.swift in Sources */,
+				7E9A96E62BD4B58D00469627 /* Networking + currentTeam.swift in Sources */,
 				7E9A96DC2BD3F74C00469627 /* Endpoint.swift in Sources */,
 				7E9A96DE2BD3FC5500469627 /* Networking + Auth.swift in Sources */,
 				7E9A96BD2BD2FA6F00469627 /* RegisterView.swift in Sources */,
@@ -477,11 +502,14 @@
 				7E9A96A02BD2C8BF00469627 /* AppCoordinator.swift in Sources */,
 				7E9A96BF2BD3038400469627 /* RadialGradientView.swift in Sources */,
 				7E9A96AA2BD2CF0800469627 /* AuthViewModel.swift in Sources */,
+				7E9A96E42BD440FE00469627 /* Networking + fetchTeams.swift in Sources */,
 				7E9A96B62BD2E01400469627 /* String + ext.swift in Sources */,
 				7E9A96812BD2C50700469627 /* SceneDelegate.swift in Sources */,
 				7E9A96D12BD3A48100469627 /* StackFlowLayout.swift in Sources */,
 				7E9A96992BD2C6FA00469627 /* Constants.swift in Sources */,
 				7E9A96A52BD2CD8C00469627 /* HomeViewController.swift in Sources */,
+				7E9A96E82BD4CEEE00469627 /* OverlayIndicator.swift in Sources */,
+				7E9A96EC2BD4E58B00469627 /* MemberInfoViewController.swift in Sources */,
 				7E9A96D82BD3BFCE00469627 /* TeamProfileViewModel.swift in Sources */,
 				7E9A96D62BD3BFAA00469627 /* TeamProfileViewController.swift in Sources */,
 				7E9A96B82BD2E04A00469627 /* View + ext.swift in Sources */,
@@ -618,8 +646,8 @@
 				INFOPLIST_FILE = Hackathon2024/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -646,8 +674,8 @@
 				INFOPLIST_FILE = Hackathon2024/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

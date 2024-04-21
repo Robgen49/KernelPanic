@@ -44,10 +44,6 @@ final class ImageCell: UICollectionViewCell {
         stack.axis = .horizontal
         stack.spacing = -10
         
-        for i in 0...4 {
-            stack.addArrangedSubview(getMemberImageView())
-        }
-        
         return stack
     }()
     
@@ -60,19 +56,60 @@ final class ImageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        bannerImage.image = nil
+        titleLabel.text = ""
+        membersImages.subviews.forEach { view in
+            view.removeFromSuperview()
+        }
     }
     
-    func setupCell() {
+    func setupCell(team: Team?) {
+        guard let team else { return }
+//        let base64image = prepareBase64String(string: team.logo)
+        let image = UIImage(data: Data(base64Encoded: team.logo) ?? Data())
+        bannerImage.image = image == nil ? UIImage(named: "bannerTest") : image
         
+        titleLabel.text = team.teamName
+        
+        var images: [String] = []
+        team.teammates.forEach {_ in
+//            images.append($0.photo ?? "")
+            images.append("avatar1")
+        }
+        setMembersImages(images: images)
     }
     
-    func getMemberImageView() -> UIImageView {
-        let image = UIImage(systemName: "person.crop.circle")
+    func prepareBase64String(string: String) -> String {
+        var newStr = string
+        let startIndex = newStr.index(newStr.startIndex, offsetBy: 21)
+        newStr.removeSubrange(newStr.startIndex..<startIndex)
         
+        return string
+    }
+    
+    func setMembersImages(images: [String]) {
+        images.forEach { imageStr in
+//            let image = UIImage(data: Data(base64Encoded: imageStr) ?? Data())
+            let image = UIImage(named: imageStr)
+            let imageView = getMemberImageView(memberImage: image)
+            membersImages.addArrangedSubview(imageView)
+        }
+
+    }
+    
+    func getMemberImageView(memberImage: UIImage?) -> UIImageView {
+        var image: UIImage?
+        if let memberImage {
+            image = memberImage
+        } else {
+            image = UIImage(systemName: "person.crop.circle")
+        }
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.sizeToFit()
         imageView.tintColor = .white
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 15
         imageView.snp.makeConstraints { make in
             make.height.width.equalTo(30)
         }

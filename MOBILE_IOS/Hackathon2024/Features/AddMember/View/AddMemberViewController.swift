@@ -9,7 +9,7 @@ import UIKit
 
 final class AddMemberViewController: UIViewController {
     //MARK: - Properties
-    weak var viewModel: AddMemberViewModelProtocol?
+    var viewModel: AddMemberViewModelProtocol?
     
     public var memberData: [String] = ["", "", "", "", ""] /// ФИО, стек, направление, оцените, трудности
     
@@ -238,8 +238,9 @@ private extension AddMemberViewController {
         
         
         stack.addArrangedSubview(addPhotoLabel)
-        stack.addArrangedSubview(addphotoButtom)
         stack.addArrangedSubview(photoImageView)
+        stack.addArrangedSubview(addphotoButtom)
+        
         
         return stack
     }
@@ -254,8 +255,16 @@ private extension AddMemberViewController {
     @objc func pickImage() {
         selectImageFromGallery()
     }
-    
+
     @objc func addTapped() {
+        let imageString = photoImage?.pngData()?.base64EncodedString() ?? ""
+        let vc = navigationController?.viewControllers[(navigationController?.viewControllers.count)! - 2] as? AuthViewController
+        vc?.registrView.members.append(Teammate(fullName: memberData[0],
+                                                                             photo: imageString,
+                                                                             stack_tech: memberData[1],
+                                                                             direction: memberData[2],
+                                                                             assessment: memberData[3],
+                                                                             difficulties: memberData[4]))
         navigationController?.popViewController(animated: true)
     }
 }

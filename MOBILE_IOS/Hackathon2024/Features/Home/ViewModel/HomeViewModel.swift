@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HomeViewModelProtocol {
     var appCoordinator: AppCoordinator? { get }
+    var teams: [Team] { get set}
 }
 
 final class HomeViewModel: HomeViewModelProtocol {
-   weak var appCoordinator: AppCoordinator?
+    var teams: [Team] = []
+    
+    weak var appCoordinator: AppCoordinator?
+    
 }

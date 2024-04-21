@@ -10,6 +10,11 @@ import UIKit
 final class RegisterView: UIView {
     
     private var userData: [String] = ["", "", "", ""] ///Название, почта, логин, пароль
+    public var members: [Teammate] = [] {
+        didSet {
+            addMemberToStack(member: members.last!)
+        }
+    }
     
     private var bannerImage: UIImage? {
         didSet {
@@ -24,6 +29,33 @@ final class RegisterView: UIView {
     
     private lazy var bannerStack = getBannerStack()
     private lazy var membersStack = getMembersStack()
+    
+    func addMemberToStack(member: Teammate) {
+        let hStack = UIStackView()
+        hStack.axis = .horizontal
+        hStack.spacing = 10
+        hStack.distribution = .fillProportionally
+        
+        let memberimage =  UIImage(data: Data(base64Encoded: member.photo ?? "")!)
+        let memberImageView = UIImageView(image: memberimage)
+        memberImageView.translatesAutoresizingMaskIntoConstraints = false
+        memberImageView.snp.makeConstraints { make in
+            make.height.width.equalTo(35)
+        }
+        
+        let addMemberLabel = UILabel()
+        addMemberLabel.translatesAutoresizingMaskIntoConstraints = false
+        addMemberLabel.text = member.fullName
+        addMemberLabel.numberOfLines = 0
+        addMemberLabel.textColor = .black
+        addMemberLabel.font = UIFont.systemFont(ofSize: 18)
+        
+        
+        hStack.addArrangedSubview(memberImageView)
+        hStack.addArrangedSubview(addMemberLabel)
+        
+        membersStack.addArrangedSubview(hStack)
+    }
     
     private lazy var goToLoginButton: UIButton = {
         let btn = UIButton()
@@ -72,7 +104,7 @@ final class RegisterView: UIView {
         let teamName = getField(placeholder: "Название команды", tag: 1)
         let mail = getField(placeholder: "Почта", tag: 2)
         let login = getField(placeholder: "Логин", tag: 3)
-        let password = getField(placeholder: "Пароль", tag: 4)
+        let password = getField(placeholder: "Пароль", tag: 4, isPassword: true)
         
         [teamName, mail, login, password, bannerStack, membersStack].forEach {
             stack.addArrangedSubview($0)
@@ -89,6 +121,7 @@ final class RegisterView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(registerTapped))
         let longTap = UILongPressGestureRecognizer(target: self, action: #selector(registerTapped))
         view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(longTap)
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -111,6 +144,7 @@ final class RegisterView: UIView {
         
         view.snp.makeConstraints { make in
             make.width.equalTo(300)
+            make.height.equalTo(50)
         }
         
         return view
@@ -170,7 +204,6 @@ final class RegisterView: UIView {
             make.height.equalTo(50)
         }
         
-
     }
 }
 
@@ -183,7 +216,7 @@ extension RegisterView {
         let hStack = UIStackView()
         hStack.axis = .horizontal
         hStack.spacing = 10
-        hStack.distribution = .fill
+        hStack.distribution = .fillProportionally
         
         let addMemberLabel = UILabel()
         addMemberLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -196,6 +229,9 @@ extension RegisterView {
         addMemberButton.imageView?.tintColor = .black
         addMemberButton.setTitleColor(.black, for: .normal)
         addMemberButton.addTarget(self, action: #selector(addMember), for: .touchUpInside)
+        addMemberButton.imageView?.snp.makeConstraints({ make in
+            make.height.width.equalTo(25)
+        })
         
         hStack.addArrangedSubview(addMemberLabel)
         hStack.addArrangedSubview(addMemberButton)
@@ -204,13 +240,17 @@ extension RegisterView {
         return stack
     }
     
-    func getField(placeholder: String, tag: Int) -> EditText {
+    func getField(placeholder: String, tag: Int, isPassword: Bool = false) -> EditText {
         let field = EditText()
         field.translatesAutoresizingMaskIntoConstraints = false
         field.set(placeholder: placeholder)
         field.textChanged(field.textField)
         field.textField.addTarget(self, action: #selector(textChanged(_:)), for: .editingChanged)
         field.textField.addTarget(self, action: #selector(textChanged(_:)), for: .editingDidEnd)
+        if isPassword {
+            field.isPassword = true
+            field.textField.isSecureTextEntry = true
+        }
         field.textField.tag = tag
         return field
     }
@@ -218,12 +258,12 @@ extension RegisterView {
     func getBannerStack() -> UIStackView {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .equalSpacing
+        stack.distribution = .fillProportionally
         stack.translatesAutoresizingMaskIntoConstraints = false
         
         let addBannerLabel = UILabel()
         addBannerLabel.translatesAutoresizingMaskIntoConstraints = false
-        addBannerLabel.text = "Баннер команды"
+        addBannerLabel.text = "Баннер команды     "
         addBannerLabel.textColor = .systemGray3
         addBannerLabel.font = UIFont.systemFont(ofSize: 18)
         
@@ -232,6 +272,10 @@ extension RegisterView {
         addBannerButtom.imageView?.tintColor = .black
         addBannerButtom.setTitleColor(.black, for: .normal)
         addBannerButtom.addTarget(self, action: #selector(pickImage), for: .touchUpInside)
+        addBannerButtom.imageView?.snp.makeConstraints({ make in
+            make.height.width.equalTo(25)
+        })
+        
         
         makeSystem(addBannerButtom)
         
@@ -247,15 +291,15 @@ extension RegisterView {
         
         
         stack.addArrangedSubview(addBannerLabel)
-        stack.addArrangedSubview(addBannerButtom)
         stack.addArrangedSubview(bannerImageView)
+        stack.addArrangedSubview(addBannerButtom)
+        
         
         return stack
     }
     
     @objc func textChanged(_ sender: UITextField) {
         userData[sender.tag-1] = sender.text ?? ""
-        print(userData)
     }
     
     @objc func registerTapped() {
@@ -264,7 +308,13 @@ extension RegisterView {
             self.registerButton.alpha = 1
         }
         
-        (parentViewController as? AuthViewController)?.registerTapped()
+        let imageString = bannerImage?.pngData()?.base64EncodedString() ?? ""
+        (parentViewController as? AuthViewController)?.registerTapped(team: Team(teamName: userData[0],
+                                                                                 logo: imageString,
+                                                                                 teammates: members,
+                                                                                 email: userData[1],
+                                                                                 login: userData[2],
+                                                                                 password: userData[3]))
     }
     
     @objc func backButtonTapped() {

@@ -9,4 +9,6 @@ import Foundation
 enum Endpoint: String {
     case signUp = "/api/auth/signup"
     case signIn = "/api/auth/signin"
+    case fetchAllTeams = "/api/team/findAll"
+    case fetchCurrentTeam = "/api/team/currentTeam"
 }

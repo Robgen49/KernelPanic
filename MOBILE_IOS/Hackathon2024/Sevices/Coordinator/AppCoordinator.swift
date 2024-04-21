@@ -25,16 +25,8 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        
-        let params: [String: Any] = [
-            "login": "panic",
-            "password": "panic"
-        ]
-        
-//        Networking.performRequest(method: .post, endPoint: .signIn, params: params, withToken: false, completion: <#Result<Bool, Error>#>)
-        
-        goToHome()
-//        goToAuth()
+//        goToHome()
+        goToAuth()
 //        goToTeamProfile()
         debugPrint("Application started!")
     }
@@ -42,6 +34,11 @@ final class AppCoordinator: Coordinator {
 
 // MARK: - Auth
 extension AppCoordinator {
+    
+    func backToAuth() {
+        goToAuth()
+    }
+    
     func goToAuth() {
         let authVC = AuthViewController()
         
