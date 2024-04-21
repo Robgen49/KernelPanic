@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Auth } from "../pages/Auth/Auth";
 import { Home } from "../pages/Home/Home";
 import Error from "../pages/Error/Error";
 import SignIn from "../modules/SignIn/SignIn";
@@ -13,10 +12,6 @@ export const router = createBrowserRouter([
       errorElement: <Error />,
    },
    {
-      path: "/auth/",
-      element: <Auth />,
-   },
-   {
       path: "/auth/login",
       element: <SignIn />
    },
@@ -27,11 +22,9 @@ export const router = createBrowserRouter([
    {
       path: "/profile",
       element: <Profile allowEdit />,
-      children: [
-         {
-            path: ":id",
-            element: <Profile allowEdit={false} />
-         }
-      ]
+   },
+   {
+      path: "/profile/:id",
+      element: <Profile allowEdit={false} />,
    }
 ])

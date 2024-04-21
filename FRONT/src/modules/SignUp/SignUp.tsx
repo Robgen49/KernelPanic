@@ -7,41 +7,83 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import DropImage from '../../components/DropImage/DropImage';
 import { AddMemer } from '../AddMember/AddMemer';
 import { Member } from '../Member/Member';
+import { fetchRegistration } from '../../api/registration';
+import { Toast } from '../../components/Alert';
+import { IconButton, useMediaQuery } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 export interface Member {
-   fio: string,
-   image: File | string,
-   description: string,
+   full_name?: string,
+   photo?: string,
+   stack_tech?: string,
+   direction?: string,
+   assessment?: string,
+   difficulties?: string,
+   id?: number,
+}
+
+export interface uploadTeam {
+   teamName: string,
+   email: string,
+   login: string,
+   password: string,
+   logo: string | null,
+   teammates: Member[]
 }
 
 export default function SignUp() {
-   const [file, setFile] = React.useState<File | null>(null);
-   const [members, setMembers] = React.useState<Member[]>([{ fio: 'Генрих Роберт Артурович' }, { fio: 'Генрих Роберт Артурович' }, { fio: 'Генрих Роберт Артурович' }, { fio: 'Генрих Роберт Артурович' }, { fio: 'Генрих Роберт Артурович' }, { fio: 'Генрих Роберт Артурович' },]);
+   const [file, setFile] = React.useState<string | null>(null);
+   const [members, setMembers] = React.useState<Member[]>([]);
    const [isModalOpen, setIsModalOpen] = React.useState(false);
+   const [errorAlertOpen, setErrorAlertOpen] = React.useState(false);
+   const [emptyMemberPhotoAlert, setEmptyMemberPhotoAlert] = React.useState(false);
+   const navigation = useNavigate();
+   const isMobile = useMediaQuery('(max-width: 640px)');
+   const [showTeammatesAlert, setShowTeammatesAlert] = React.useState(false);
+   const [showBannerAlert, setShowBannerAlert] = React.useState(false);
 
-   const handleChange = (file: File) => {
+   const handleChange = (file: string) => {
       setFile(file);
    };
-
-   console.log(members)
 
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log({
-         email: data.get('email'),
-         password: data.get('password'),
-      });
+      if (file === null) {
+         setShowBannerAlert(true);
+         return;
+      }
+      if (members.length < 2) {
+         setShowTeammatesAlert(true);
+         return;
+      }
+
+      fetchRegistration({
+         teamName: data.get('title') as string,
+         email: data.get('email') as string,
+         login: data.get('login') as string,
+         password: data.get('password') as string,
+         logo: file,
+         teammates: members
+      }).then((data) => data.json()).then((data) => {
+         navigation('/auth/login', { state: { successAlertOpen: true } });
+      }).catch(() => {
+         setErrorAlertOpen(true);
+      })
    };
 
    return (
       <Container sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }} component="main" maxWidth="xs">
-         <AddMemer open={isModalOpen} handleClose={() => setIsModalOpen(false)} setMembers={setMembers} />
+         <Toast open={showBannerAlert} handleClose={() => setShowBannerAlert(false)} message={'Добавьте баннер команды!'} result={'error'} />
+         <Toast open={showTeammatesAlert} handleClose={() => setShowTeammatesAlert(false)} message={'Добавьте хотя бы двух участников!'} result={'error'} />
+         <Toast open={errorAlertOpen} handleClose={() => setErrorAlertOpen(false)} message={'Что-то пошло не так('} result={'error'} />
+         <Toast open={emptyMemberPhotoAlert} handleClose={() => setEmptyMemberPhotoAlert(false)} message={'Добавьте фото!'} result={'error'} />
+         <AddMemer setErrorAlertOpen={setEmptyMemberPhotoAlert} open={isModalOpen} handleClose={() => setIsModalOpen(false)} setMembers={setMembers} />
          <Box
             sx={{
                marginTop: 8,
@@ -57,9 +99,9 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
                Регистрация
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-               <Box minWidth={300} maxWidth={'50vw'} display={'flex'} flexDirection={'column'} gap={2}>
-                  <Box width={'100%'}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+               <Box minWidth={isMobile ? 300 : 400} maxWidth={'50vw'} display={'flex'} flexDirection={'column'} gap={2}>
+                  <Box>
                      <TextField
                         autoComplete="given-name"
                         name="title"
@@ -78,6 +120,7 @@ export default function SignUp() {
                         label="Электронная почта"
                         name="email"
                         autoComplete="email"
+                        type='email'
                      />
                   </Box>
                   <Box>
@@ -96,6 +139,7 @@ export default function SignUp() {
                         id="password"
                         label="Пароль"
                         name="password"
+                        type='password'
                         autoComplete="password"
                      />
                   </Box>
@@ -104,7 +148,7 @@ export default function SignUp() {
                         <Typography>
                            Участники
                         </Typography>
-                        <Button onClick={() => setIsModalOpen(true)} size='small' variant="outlined" >Добавить участника</Button>
+                        <IconButton onClick={() => setIsModalOpen(true)} ><AddCircleOutlineIcon /></IconButton>
                      </Box>
                   </Box>
                   {members.length > 0 &&
@@ -119,7 +163,7 @@ export default function SignUp() {
                            backgroundColor: 'rgba(0 0 0 / 0.5)',
                         },
                      }} display={'flex'} flexDirection={'row'} gap={2} maxWidth={450}>
-                        {members.map((member: Member, index: number) => <Member key={index} fio={member.fio} avatar={member.image && member.image instanceof File ? URL.createObjectURL(member.image) : member.image} />)}
+                        {members.map((member: Member, index: number) => <Member key={index} fio={member.full_name} avatar={member.photo && member.photo instanceof File ? URL.createObjectURL(member.photo) : member.photo} />)}
                      </Box>
                   }
                   <Box>
@@ -128,7 +172,7 @@ export default function SignUp() {
                            Баннер
                         </Typography>
                         <Box sx={{ width: '50%' }} >
-                           <DropImage name='banner' onImageUpload={handleChange} />
+                           <DropImage allowEdit name='banner' onImageUpload={handleChange} />
                         </Box>
                      </Box>
                   </Box>

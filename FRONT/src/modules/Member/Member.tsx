@@ -2,7 +2,7 @@ import cls from './Member.module.scss';
 import { Avatar, Tooltip } from '@mui/material';
 
 interface MemberProps {
-   fio: string;
+   fio?: string;
    avatar?: string;
    id?: number;
 }

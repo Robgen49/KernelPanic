@@ -9,10 +9,6 @@ interface ErrorProps {
 
 const Error: React.FC<ErrorProps> = ({ message }) => {
 
-   const handleRefresh = () => {
-      window.location.reload();
-   };
-
    return (
       <div className={cls.root}>
          <Typography sx={{mb: 0, fontSize: 32}}>

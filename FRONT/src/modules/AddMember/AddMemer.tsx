@@ -2,46 +2,56 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid, TextField } from '@mui/material';
+import { Grid, TextField, useMediaQuery } from '@mui/material';
 import DropImage from '../../components/DropImage/DropImage';
 import { useState } from 'react';
 import { Member } from '../SignUp/SignUp';
-
-const style = {
-   position: 'absolute' as 'absolute',
-   top: '50%',
-   left: '50%',
-   transform: 'translate(-50%, -50%)',
-   width: 400,
-   bgcolor: 'background.paper',
-   border: '2px solid #000',
-   boxShadow: 24,
-   p: 4,
-};
+import { Toast } from '../../components/Alert';
 
 interface AddMemerProps {
    className?: string;
    open: boolean;
    handleClose: () => void;
    setMembers: React.Dispatch<React.SetStateAction<Member[]>>;
+   setErrorAlertOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const AddMemer = ({open, handleClose, setMembers}: AddMemerProps) => {
-   const [file, setFile] = useState<File>();
-   const handleChange = (file: File) => {
+export const AddMemer = ({ open, handleClose, setMembers, setErrorAlertOpen }: AddMemerProps) => {
+   const [file, setFile] = useState<string>();
+   const handleChange = (file: string) => {
       setFile(file);
    };
 
    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      console.log(data.get('image'))
+      if (file === null || file?.length === 0 || !file) {
+         setErrorAlertOpen(true);
+         return;
+      }
       setMembers(members => [...members, {
-         fio: data.get('fio') as string,
-         image: data.get('image') as File,
-         description: data.get('description') as string,
+         full_name: data.get('full_name') as string,
+         photo: file,
+         assessment: data.get('assessment') as string,
+         difficulties: data.get('difficulties') as string,
+         stack_tech: data.get('stack_tech') as string,
+         direction: data.get('direction') as string
       }])
       handleClose()
+   };
+
+   const isMobile = useMediaQuery('(max-width: 420px)');
+
+   const style = {
+      position: 'absolute' as 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: isMobile ? 300 : 400,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
    };
 
    return (
@@ -54,7 +64,7 @@ export const AddMemer = ({open, handleClose, setMembers}: AddMemerProps) => {
                Добавление участника
             </Typography>
 
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
                <Grid container spacing={2}>
                   <Grid item xs={12} sm={12}>
                      <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
@@ -62,29 +72,56 @@ export const AddMemer = ({open, handleClose, setMembers}: AddMemerProps) => {
                            Фото участника
                         </Typography>
                         <Box sx={{ width: '50%' }} >
-                           <DropImage name='image' onImageUpload={handleChange} />
+                           <DropImage allowEdit={true} name='photo' onImageUpload={handleChange} />
                         </Box>
                      </Box>
                   </Grid>
                   <Grid item xs={12} sm={12}>
                      <TextField
                         autoComplete="given-name"
-                        name="fio"
+                        name="full_name"
                         required
                         fullWidth
                         id="title"
                         label="ФИО участника"
-                        autoFocus
                      />
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
                         required
                         fullWidth
-                        id="description"
-                        label="Краткое резюме"
-                        name="email"
-                        autoComplete="email"
+                        id="stack_tech"
+                        label="Стек технологий"
+                        name="stack_tech"
+                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                     <TextField
+                        required
+                        fullWidth
+                        id="direction"
+                        label="Направление"
+                        name="direction"
+                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                     <TextField
+                        required
+                        fullWidth
+                        id="assessment"
+                        InputLabelProps={{ sx: { fontSize: isMobile ? 10 : 14 } }}
+                        label="Оцените свой вклад в данной работе"
+                        name="assessment"
+                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                     <TextField
+                        required
+                        fullWidth
+                        InputLabelProps={{ sx: { fontSize: isMobile ? 10 : 14 } }}
+                        id="difficulties"
+                        label="С какими трудностями столкнулись"
+                        name="difficulties"
                      />
                   </Grid>
                </Grid>

@@ -1,8 +1,9 @@
 import React, { useEffect, useId, useState } from 'react';
 import styles from './DropImage.module.scss';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Box } from '@mui/material';
 interface DropImageProps {
-   onImageUpload: (file: File) => void;
+   onImageUpload: (file: string) => void;
    name: string;
    imagePreviewOutside?: string;
    allowEdit?: boolean;
@@ -34,7 +35,7 @@ const DropImage: React.FC<DropImageProps> = ({ onImageUpload, name, imagePreview
       reader.onload = () => {
          const image = reader.result as string;
          setImagePreview(image);
-         onImageUpload(file);
+         onImageUpload(image);
       };
    };
 
@@ -44,7 +45,6 @@ const DropImage: React.FC<DropImageProps> = ({ onImageUpload, name, imagePreview
    };
 
    const id = useId();
-   console.log('drop image = :', imagePreviewOutside)
 
    return (
       <>
@@ -55,10 +55,12 @@ const DropImage: React.FC<DropImageProps> = ({ onImageUpload, name, imagePreview
                onDrop={handleFileDrop}
                onDragOver={preventDefault}
                onDragEnter={(event: React.DragEvent<HTMLDivElement>) => {
-                  const div = event.target as HTMLDivElement; div.classList.add(styles.dragEnter)
+                  const div = event.target as HTMLDivElement;
+                  div.classList.add(styles.dragEnter)
                }}
                onDragLeave={(event: React.DragEvent<HTMLDivElement>) => {
-                  const div = event.target as HTMLDivElement; div.classList.remove(styles.dragEnter)
+                  const div = event.target as HTMLDivElement;
+                  div.classList.remove(styles.dragEnter)
                }}
             >
                <input
@@ -70,12 +72,16 @@ const DropImage: React.FC<DropImageProps> = ({ onImageUpload, name, imagePreview
                   id={id}
                />
                <label style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} htmlFor={id}>
-                  {imagePreview ? <img className={styles.img} src={imagePreview} alt="Uploaded" /> : <CloudUploadIcon sx={{ fontSize: 50 }} color="primary" />}
+                  {imagePreview ? <Box sx={{ maxWidth: 400, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><img className={styles.img} src={imagePreview} alt="Uploaded" /> </Box> :
+                     <Box sx={{ maxWidth: 400, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <CloudUploadIcon sx={{ fontSize: 50 }} color="primary" />
+                     </Box>
+                  }
                </label>
             </div >
             :
             <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-               {imagePreview && <img className={styles.img} src={imagePreview} alt="Uploaded" />}
+               {imagePreview && <Box sx={{ maxWidth: 400, display: 'flex', justifyContent: 'center', alignItems: 'center' }}> <img className={styles.img} src={imagePreview} alt="Uploaded" /></Box>}
             </div>
          }
       </>
